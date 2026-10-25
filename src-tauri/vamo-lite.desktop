@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=Vamo Lite
+GenericName=WhatsApp Web Client
+GenericName[es]=Cliente de WhatsApp Web
+Comment=Independent WhatsApp Web desktop client
+Comment[es]=Cliente independiente de WhatsApp Web
+Exec=vamo-lite
+Icon=vamo-lite
+Terminal=false
+Categories=Network;InstantMessaging;
+StartupNotify=true

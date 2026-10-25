@@ -1,0 +1,32 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "app": {
+    "windows": [{ "label": "main", "create": false }],
+    "security": {
+      "capabilities": [{
+        "identifier": "linux-whatsapp-zoom",
+        "description": "Permite solo el zoom del WebView de WhatsApp en Linux.",
+        "local": false,
+        "platforms": ["linux"],
+        "remote": { "urls": ["https://web.whatsapp.com/*"] },
+        "webviews": ["whatsapp-embedded"],
+        "permissions": ["core:webview:allow-set-webview-zoom"]
+      }]
+    }
+  },
+  "bundle": {
+    "targets": ["deb"],
+    "icon": ["icons/icon.png"],
+    "linux": {
+      "deb": {
+        "depends": ["xdg-utils"],
+        "desktopTemplate": "vamo-lite.desktop",
+        "files": {
+          "/usr/share/doc/vamo-lite/copyright": "../LICENSE",
+          "/usr/share/doc/vamo-lite/CREDITS.md": "../CREDITS.md",
+          "/usr/share/doc/vamo-lite/THIRD_PARTY_NOTICES.txt": "../THIRD_PARTY_NOTICES.txt"
+        }
+      }
+    }
+  }
+}
