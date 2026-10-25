@@ -59,9 +59,12 @@ jobs:
           dpkg-deb --info "$deb" | tee dist/PACKAGE-INFO.txt
           dpkg-deb --contents "$deb" > dist/PACKAGE-CONTENTS.txt
           grep -q 'xdg-utils' dist/PACKAGE-INFO.txt
-          grep -q '/usr/bin/vamo-lite' dist/PACKAGE-CONTENTS.txt
-          grep -q '/usr/share/applications/' dist/PACKAGE-CONTENTS.txt
-          grep -q '/usr/share/doc/vamo-lite/copyright' dist/PACKAGE-CONTENTS.txt
+          grep -q 'usr/bin/vamo-lite' dist/PACKAGE-CONTENTS.txt
+          grep -q 'usr/share/applications/' dist/PACKAGE-CONTENTS.txt
+          grep -q 'usr/share/doc/vamo-lite/copyright' dist/PACKAGE-CONTENTS.txt
+          sudo apt-get install -y "$PWD/$deb"
+          ldd /usr/bin/vamo-lite | tee dist/LIBRARIES.txt
+          if grep -q 'not found' dist/LIBRARIES.txt; then exit 1; fi
           cd dist
           sha256sum *.deb > SHA256SUMS.txt
       - name: Prueba de arranque sin cuenta de WhatsApp
@@ -69,7 +72,7 @@ jobs:
           set +e
           timeout --signal=TERM --kill-after=5s 15s xvfb-run -a \
             env GDK_BACKEND=x11 WEBKIT_DISABLE_DMABUF_RENDERER=1 \
-            src-tauri/target/release/vamo-lite > dist/STARTUP-LOG.txt 2>&1
+            /usr/bin/vamo-lite > dist/STARTUP-LOG.txt 2>&1
           status=$?
           set -e
           cat dist/STARTUP-LOG.txt
