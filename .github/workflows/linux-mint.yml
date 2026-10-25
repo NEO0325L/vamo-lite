@@ -36,7 +36,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends \
             build-essential libwebkit2gtk-4.1-dev libayatana-appindicator3-dev \
-            librsvg2-dev libssl-dev patchelf xdg-utils xvfb xauth
+            librsvg2-dev libssl-dev patchelf xdg-utils xvfb xauth desktop-file-utils
       - name: Preparar Rust estable
         run: |
           rustup toolchain install stable --profile minimal
@@ -63,6 +63,7 @@ jobs:
           grep -q 'usr/share/applications/' dist/PACKAGE-CONTENTS.txt
           grep -q 'usr/share/doc/vamo-lite/copyright' dist/PACKAGE-CONTENTS.txt
           sudo apt-get install -y "$PWD/$deb"
+          desktop-file-validate '/usr/share/applications/Vamo Lite.desktop'
           ldd /usr/bin/vamo-lite | tee dist/LIBRARIES.txt
           if grep -q 'not found' dist/LIBRARIES.txt; then exit 1; fi
           cd dist
