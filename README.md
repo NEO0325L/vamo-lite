@@ -71,7 +71,7 @@ Versión experimental 0.1.1 para Windows 11. El uso diario de las versiones ante
 
 ## Contribuir
 
-Consulta [CONTRIBUTING.md](CONTRIBUTING.md). No publiques mensajes privados, documentos, QR, cookies ni perfiles de sesión.
+Consulta [CONTRIBUTING.md](CONTRIBUTING.md). 
 
 ## Licencia y marcas
 
