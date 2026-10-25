@@ -6,12 +6,12 @@ Primera versión experimental para Linux Mint 22.x de 64 bits (amd64), basada en
 
 ## Instalar
 
-Descarga el paquete .deb de la publicación de Linux en GitHub y ábrelo con el instalador de paquetes de Mint. El gestor del sistema puede descargar las bibliotecas necesarias automáticamente; se requiere conexión para ello. No necesitas Rust, Node.js ni Visual Studio para usar la aplicación.
+Descarga [vamo-lite_0.1.2_amd64.deb](https://github.com/NEO0325L/vamo-lite/releases/download/v0.1.2/vamo-lite_0.1.2_amd64.deb) de la [publicación de Linux](https://github.com/NEO0325L/vamo-lite/releases/tag/v0.1.2) en GitHub y ábrelo con el instalador de paquetes de Mint. El gestor del sistema puede descargar las bibliotecas necesarias automáticamente; se requiere conexión para ello. No necesitas Rust, Node.js ni Visual Studio para usar la aplicación.
 
 También puedes instalar desde la carpeta donde descargaste el archivo:
 
 ```bash
-sudo apt install ./Vamo\ Lite_0.1.2_amd64.deb
+sudo apt install ./vamo-lite_0.1.2_amd64.deb
 ```
 
 Usa el nombre real del archivo descargado. Evita `dpkg -i` como primer método: por sí solo no resuelve dependencias ausentes. Después busca Vamo Lite en el menú de aplicaciones.
@@ -32,10 +32,11 @@ sudo apt update
 sudo apt install build-essential libwebkit2gtk-4.1-dev libayatana-appindicator3-dev librsvg2-dev libssl-dev patchelf xdg-utils
 ```
 
-Instala Rust estable desde su distribución oficial y Tauri CLI 2.12.1. En la raíz del repositorio:
+Instala Rust estable desde su distribución oficial, Node.js y Tauri CLI 2.12.1. En la raíz del repositorio:
 
 ```bash
 cargo install tauri-cli --version 2.12.1 --locked
+node scripts/generate-notices.mjs x86_64-unknown-linux-gnu
 cd src-tauri
 cargo tauri build --bundles deb -- --locked
 ```
@@ -44,7 +45,9 @@ Tauri carga automáticamente tauri.linux.conf.json. El paquete se genera en src-
 
 ## Compilación automatizada
 
-El flujo Linux Mint 22 - paquete DEB compila en un ejecutor Ubuntu 24.04, comprueba arquitectura y contenido del paquete, genera SHA-256 y realiza una prueba de arranque con pantalla virtual. Sus permisos de repositorio son de lectura; no utiliza claves personales ni publica versiones automáticamente.
+El flujo Linux Mint 22 - paquete DEB compila en un ejecutor Ubuntu 24.04, comprueba arquitectura y contenido del paquete, lo instala con APT, comprueba las bibliotecas dinámicas, genera SHA-256 y realiza una prueba de arranque de 15 segundos con pantalla virtual. Sus permisos de repositorio son de lectura; no utiliza claves personales ni publica versiones automáticamente.
+
+La versión 0.1.2 pasó estas comprobaciones en [GitHub Actions, Ubuntu 24.04](https://github.com/NEO0325L/vamo-lite/actions/runs/40171428445). No se ha probado todavía en una instalación real de Mint.
 
 La prueba de arranque no verifica QR, mensajes, notas de voz, notificaciones ni reproducción multimedia con una cuenta real. Antes de considerar estable esta versión, prueba esas funciones en Mint. Los códecs y las capacidades multimedia dependen de WebKitGTK y de las bibliotecas del sistema.
 

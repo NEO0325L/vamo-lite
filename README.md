@@ -12,19 +12,19 @@ Proyecto independiente, sin afiliación con WhatsApp ni Meta. Utiliza el sitio o
 
 ## Linux Mint 22.x (experimental)
 
-Se está preparando el paquete Debian de 64 bits de la versión 0.1.2. Consulta [LINUX-MINT.md](LINUX-MINT.md) para instalación, compilación y diferencias de plataforma. El gestor de paquetes de Mint resuelve las dependencias del .deb; no necesitas instalar herramientas de desarrollo para usarlo. Esta adaptación requiere pruebas con una cuenta real en Linux antes de considerarse estable.
+[**Descargar Vamo Lite 0.1.2 para Linux Mint 22.x x64 (.deb)**](https://github.com/NEO0325L/vamo-lite/releases/download/v0.1.2/vamo-lite_0.1.2_amd64.deb). Consulta [LINUX-MINT.md](LINUX-MINT.md) para instalación, compilación y diferencias de plataforma. El gestor de paquetes de Mint resuelve las dependencias del .deb; no necesitas instalar herramientas de desarrollo para usarlo. Esta adaptación requiere pruebas con una cuenta real en Linux antes de considerarse estable.
 
-## Funciones
+## Funciones de la aplicación
 
 - WhatsApp Web al iniciar, con sesión persistente.
 - Ventana redimensionable y ajuste al maximizar.
 - Adjuntos mediante arrastrar y soltar.
-- Descargas en Descargas de Windows y apertura del Explorador con el archivo seleccionado. Los nombres repetidos reciben un sufijo numérico.
+- Descargas en la carpeta Descargas. En Windows se abre el Explorador con el archivo seleccionado; en Linux se abre la carpeta con el gestor del sistema. Los nombres repetidos reciben un sufijo numérico.
 - Zoom: Ctrl + más, Ctrl + menos y Ctrl + 0.
 - Panel de emojis: Ctrl + Shift + E, sujeto a la estructura actual de WhatsApp Web.
-- Micrófono, cámara y notificaciones, si Windows también permite estos accesos.
+- Micrófono, cámara y notificaciones, si el sistema operativo también permite estos accesos.
 
-## Compilar
+## Compilar para Windows
 
 Requisitos: Windows 11 x64, Rust estable con MSVC, Visual Studio Build Tools con Desarrollo para el escritorio con C++, MSVC, Windows SDK y Microsoft Edge WebView2 Runtime. No se necesita Node.js ni npm.
 
@@ -36,7 +36,7 @@ cd .\src-tauri
 cargo tauri build
 ```
 
-El instalador se genera en `src-tauri/target/release/bundle/nsis/Vamo Lite_0.1.1_x64-setup.exe`. Cierra la aplicación antes de actualizarla. Los binarios generados no se incluyen en Git.
+El instalador se genera en `src-tauri/target/release/bundle/nsis/Vamo Lite_<versión>_x64-setup.exe`. Cierra la aplicación antes de actualizarla. Los binarios generados no se incluyen en Git.
 
 Para desarrollo, ejecuta `cargo tauri dev` desde `src-tauri`. Consulta [TAURI-WINDOWS.md](TAURI-WINDOWS.md) para diagnóstico y pruebas.
 
@@ -59,9 +59,9 @@ Las conversaciones reales las proporciona WhatsApp Web. Los indicadores de conex
 
 ## Privacidad y permisos
 
-El perfil de WebView2 se guarda dentro del directorio de datos de la aplicación, en `whatsapp-web-profile`. Contiene datos sensibles: Los documentos se guardan en Descargas del usuario.
+El perfil del motor web se guarda dentro del directorio de datos de la aplicación, en `whatsapp-web-profile`. Contiene datos sensibles: Los documentos se guardan en Descargas del usuario.
 
-La implementación actual permite automáticamente micrófono, cámara y notificaciones en la vista incrustada. No incluye una pantalla propia de revocación por sitio. Windows puede bloquear estos accesos desde sus ajustes de privacidad.
+La implementación actual permite automáticamente micrófono, cámara y notificaciones en la vista incrustada. No incluye una pantalla propia de revocación por sitio. El sistema operativo puede bloquear estos accesos desde sus ajustes de privacidad.
 
 ## Estado y limitaciones
 
