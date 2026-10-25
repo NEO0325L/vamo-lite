@@ -1,0 +1,59 @@
+name: Verificar instalador publicado de Linux
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/verify-linux-release.sh'
+      - '.github/workflows/verify-linux-release.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  verify-release:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Obtener las pruebas
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - name: Descargar y comprobar el instalador público 0.1.2
+        run: |
+          set -euo pipefail
+          mkdir -p dist
+          curl --fail --location --retry 3 \
+            https://github.com/NEO0325L/vamo-lite/releases/download/v0.1.2/vamo-lite_0.1.2_amd64.deb \
+            -o dist/vamo-lite_0.1.2_amd64.deb
+          echo 'f209abc557aa33aa9ed36259f9b2a6498e5450abde8fa10fe1924dee92171d9d  dist/vamo-lite_0.1.2_amd64.deb' | sha256sum --check
+          dpkg-deb --info dist/*.deb > dist/PACKAGE-INFO.txt
+          test "$(dpkg-deb -f dist/*.deb Architecture)" = amd64
+          test "$(dpkg-deb -f dist/*.deb Version)" = 0.1.2
+      - name: Instalar el paquete y herramientas de prueba
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            "$PWD/dist/vamo-lite_0.1.2_amd64.deb" \
+            xvfb xauth dbus-x11 openbox xdotool wmctrl scrot \
+            desktop-file-utils gstreamer1.0-tools
+          desktop-file-validate '/usr/share/applications/Vamo Lite.desktop'
+          ldd /usr/bin/vamo-lite | tee dist/LIBRARIES.txt
+          if grep -q 'not found' dist/LIBRARIES.txt; then exit 1; fi
+          gst-inspect-1.0 opusdec > dist/CODECS.txt
+          gst-inspect-1.0 avdec_h264 >> dist/CODECS.txt
+          gst-inspect-1.0 avdec_aac >> dist/CODECS.txt
+      - name: Verificar ventana, redimensionado y cierre del binario instalado
+        run: |
+          timeout 120s dbus-run-session -- xvfb-run -a -s '-screen 0 1920x1080x24' \
+            env GDK_BACKEND=x11 WEBKIT_DISABLE_DMABUF_RENDERER=1 \
+            bash scripts/verify-linux-release.sh
+      - name: Guardar evidencias
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: comprobacion-linux-0.1.2
+          path: dist/
+          retention-days: 14
+          if-no-files-found: error
