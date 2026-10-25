@@ -70,8 +70,9 @@ fn ensure_whatsapp(app: &AppHandle) -> Result<(), String> {
                 let original = directory.join(filename);
                 let stem = original.file_stem().unwrap_or_default();
                 let extension = original.extension();
-                // Reserva el nombre para no reemplazar archivos existentes,
-                // incluso cuando se inician varias descargas a la vez.
+                // Windows reserva el nombre. WebKitGTK rechaza destinos que ya
+                // existen: en Linux dejamos que el motor cree el archivo y
+                // mantenga su protección contra sobrescrituras.
                 for number in 0..10000 {
                     let candidate = if number == 0 {
                         original.clone()
@@ -84,6 +85,13 @@ fn ensure_whatsapp(app: &AppHandle) -> Result<(), String> {
                         }
                         directory.join(name)
                     };
+                    #[cfg(target_os = "linux")]
+                    {
+                        if candidate.exists() { continue; }
+                        *destination = candidate;
+                        return true;
+                    }
+                    #[cfg(not(target_os = "linux"))]
                     match std::fs::OpenOptions::new().write(true).create_new(true).open(&candidate) {
                         Ok(_) => { *destination = candidate; return true; }
                         Err(error) if error.kind() == std::io::ErrorKind::AlreadyExists => continue,
