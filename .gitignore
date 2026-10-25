@@ -1,0 +1,25 @@
+# Compilaciones e instaladores
+**/target/
+*.exe
+*.msi
+*.pdb
+# Sesiones y datos privados
+**/whatsapp-web-profile/
+**/EBWebView/
+**/User Data/
+**/WebView2/
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.pfx
+*.p12
+*.log
+# Generados y editores
+src-tauri/gen/
+.vs/
+.idea/
+Thumbs.db
+Desktop.ini
+.DS_Store
