@@ -1,6 +1,6 @@
 # Vamo Lite
 
-Aplicación experimental para Windows 11 que abre WhatsApp Web dentro de una ventana de Tauri y Microsoft Edge WebView2. Su objetivo es ofrecer una envoltura sencilla para equipos con recursos limitados.
+Aplicación independiente para Windows 11, con una primera adaptación experimental a Linux Mint 22.x, que abre WhatsApp Web dentro de una ventana de Tauri. Windows utiliza WebView2 y Linux utiliza WebKitGTK. Su objetivo es ofrecer una envoltura sencilla para equipos con recursos limitados.
 
 Proyecto independiente, sin afiliación con WhatsApp ni Meta. Utiliza el sitio oficial de WhatsApp Web; no implementa el protocolo ni sincroniza conversaciones por cuenta propia.
 
@@ -9,6 +9,10 @@ Proyecto independiente, sin afiliación con WhatsApp ni Meta. Utiliza el sitio o
 [**Descargar Vamo Lite 0.1.1 para Windows 11 x64 (.exe)**](https://github.com/NEO0325L/vamo-lite/releases/download/v0.1.1/Vamo.Lite_0.1.1_x64-setup.exe)
 
 [Notas de la versión y requisitos](https://github.com/NEO0325L/vamo-lite/releases/tag/v0.1.1). Versión experimental para Windows 11 x64. Descarga y ejecuta únicamente el instalador .exe: incluye el instalador completo de Microsoft Edge WebView2 y las bibliotecas de ejecución de Visual C++. WebView2 se instala automáticamente si falta. No necesitas instalar Rust, Visual Studio ni WebView2 por separado. La instalación de los componentes incluidos no requiere descargarlos de Internet; usar WhatsApp sí requiere conexión. El instalador no está firmado digitalmente. Cierra Vamo Lite antes de actualizar.
+
+## Linux Mint 22.x (experimental)
+
+Se está preparando el paquete Debian de 64 bits de la versión 0.1.2. Consulta [LINUX-MINT.md](LINUX-MINT.md) para instalación, compilación y diferencias de plataforma. El gestor de paquetes de Mint resuelve las dependencias del .deb; no necesitas instalar herramientas de desarrollo para usarlo. Esta adaptación requiere pruebas con una cuenta real en Linux antes de considerarse estable.
 
 ## Funciones
 
@@ -80,6 +84,7 @@ Consulta [CONTRIBUTING.md](CONTRIBUTING.md).
 Vamo Lite nació como un proyecto personal y se comparte bajo la [licencia MIT](LICENSE). Se permite usar, modificar y redistribuir el código, incluso comercialmente, conservando el aviso de autoría y el texto de la licencia en las copias o partes sustanciales del software. La licencia no exige atribución visible en todas las pantallas. Consulta las condiciones completas en LICENSE.
 
 Vamo Lite es un proyecto independiente y no está afiliado, patrocinado ni aprobado por WhatsApp o Meta. Las marcas y los servicios pertenecen a sus respectivos titulares. Las dependencias y WebView2 conservan sus propios términos; la licencia MIT del proyecto no concede derechos sobre componentes o marcas de terceros. Consulta [CREDITS.md](CREDITS.md) y [THIRD_PARTY_NOTICES.txt](THIRD_PARTY_NOTICES.txt).
+
 
 
 
