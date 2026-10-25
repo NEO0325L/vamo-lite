@@ -19,7 +19,7 @@
     "icon": ["icons/icon.png"],
     "linux": {
       "deb": {
-        "depends": ["xdg-utils"],
+        "depends": ["xdg-utils", "gstreamer1.0-plugins-good", "gstreamer1.0-libav"],
         "desktopTemplate": "vamo-lite.desktop",
         "files": {
           "/usr/share/doc/vamo-lite/copyright": "../LICENSE",
