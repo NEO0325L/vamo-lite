@@ -1,5 +1,12 @@
 # Registro de cambios
 
+## 0.1.3
+
+- Corrección de descargas en Linux: el destino no se crea antes de entregarlo a WebKitGTK, que rechaza por defecto sobrescribir archivos existentes.
+- Acceso del menú con finales de línea Unix y validación del archivo desktop durante la compilación.
+- Comprobación adicional del instalador publicado: integridad, códecs, ventana visible, redimensionado, maximización, restauración y cierre.
+- README y guía de Mint actualizados para distinguir las pruebas automáticas de las funciones pendientes con una cuenta real.
+
 ## 0.1.2
 
 - Primera adaptación experimental a Linux Mint 22.x amd64 y paquete .deb.

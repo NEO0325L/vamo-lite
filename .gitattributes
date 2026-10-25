@@ -1,0 +1,9 @@
+* text=auto eol=lf
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.png -text
+*.ico -text
+*.exe -text
+*.msi -text
+*.deb -text
+*.zip -text
