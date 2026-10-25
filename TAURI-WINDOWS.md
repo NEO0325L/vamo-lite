@@ -43,3 +43,13 @@ Este modo falla si falta alguna dependencia.
 7. Comprueba notificaciones y una nota de voz con los permisos correspondientes.
 
 Estas pruebas requieren interacción con WhatsApp. Que el código compile no demuestra por sí solo el funcionamiento completo.
+
+## Instalador completo (desde 0.1.1)
+
+`bundle.windows.webviewInstallMode.type` se configura como `offlineInstaller`. Tauri incorpora el instalador original completo de Microsoft Edge WebView2 x64 dentro del instalador NSIS. Durante el empaquetado se necesita conexión para obtenerlo de Microsoft cuando no está disponible en caché; ese requisito corresponde al desarrollador, no a quien instala Vamo Lite.
+
+La persona usuaria ejecuta un solo .exe. Si WebView2 ya está instalado, se reutiliza; si falta, el instalador incluido se ejecuta automáticamente. Windows debe permitir la instalación y disponer de espacio suficiente. WhatsApp Web necesita Internet para iniciar sesión y enviar o recibir mensajes.
+
+El paquete instala LICENSE, CREDITS.md y THIRD_PARTY_NOTICES.txt junto a la aplicación. El tamaño del instalador aumenta al incluir WebView2; esto no implica por sí mismo un aumento de memoria al ejecutar Vamo Lite.
+
+Antes de afirmar compatibilidad en equipos sin WebView2, verifica el instalador en una máquina virtual limpia de Windows 11 x64. No desinstales el runtime de un equipo de uso diario para realizar esta prueba, ya que otras aplicaciones pueden depender de él.
