@@ -12,7 +12,19 @@ Proyecto independiente, sin afiliación con WhatsApp ni Meta. Utiliza el sitio o
 
 ## Linux Mint 22.x (experimental)
 
-[**Descargar Vamo Lite 0.1.2 para Linux Mint 22.x x64 (.deb)**](https://github.com/NEO0325L/vamo-lite/releases/download/v0.1.2/vamo-lite_0.1.2_amd64.deb). Consulta [LINUX-MINT.md](LINUX-MINT.md) para instalación, compilación y diferencias de plataforma. El gestor de paquetes de Mint resuelve las dependencias del .deb; no necesitas instalar herramientas de desarrollo para usarlo. Esta adaptación requiere pruebas con una cuenta real en Linux antes de considerarse estable.
+[**Descargar Vamo Lite 0.1.3 para Linux Mint 22.x x64 (.deb)**](https://github.com/NEO0325L/vamo-lite/releases/download/v0.1.3/vamo-lite_0.1.3_amd64.deb) · [Notas y SHA-256](https://github.com/NEO0325L/vamo-lite/releases/tag/v0.1.3).
+
+Destinado a Mint 22.x de 64 bits (amd64), cuya base es Ubuntu 24.04. Abre el archivo con el instalador de paquetes de Mint o ejecuta desde la carpeta de descarga:
+
+```bash
+sudo apt install ./vamo-lite_0.1.3_amd64.deb
+```
+
+Después busca **Vamo Lite** en el menú y vincula WhatsApp mediante el QR del teléfono. El gestor de paquetes instala WebKitGTK, GTK y los complementos multimedia de GStreamer que falten; necesita Internet para descargarlos. No necesitas instalar Rust, Node.js, Visual Studio ni Microsoft WebView2 para usarlo.
+
+Linux utiliza una ventana nativa con una sola vista de WhatsApp y el agente de usuario de WebKitGTK. Las descargas abren su carpeta con el gestor de archivos configurado. La sesión de Windows no se transfiere automáticamente a Linux.
+
+Consulta [LINUX-MINT.md](LINUX-MINT.md) para integridad, compilación, diagnóstico y pruebas. Todavía falta validar una cuenta real en Mint. No se ha comprobado Mint 21.x, LMDE, ARM ni sistemas de 32 bits.
 
 ## Funciones de la aplicación
 
@@ -40,6 +52,12 @@ El instalador se genera en `src-tauri/target/release/bundle/nsis/Vamo Lite_<vers
 
 Para desarrollo, ejecuta `cargo tauri dev` desde `src-tauri`. Consulta [TAURI-WINDOWS.md](TAURI-WINDOWS.md) para diagnóstico y pruebas.
 
+## Compilar para Linux Mint
+
+Compila dentro de Mint 22.x o Ubuntu 24.04 amd64 siguiendo [las instrucciones de Linux](LINUX-MINT.md#compilar-en-mint-22x). No se genera el paquete Linux desde la compilación de Windows. La configuración `tauri.linux.conf.json` selecciona el formato `.deb`, el icono, el acceso del menú y sus dependencias.
+
+GitHub Actions genera el inventario de licencias para Linux antes de compilar. El paquete incluye la licencia MIT del proyecto, los créditos y los avisos de terceros.
+
 ## Vincular una cuenta
 
 Abre Vamo Lite y escanea el QR mediante Dispositivos vinculados en WhatsApp del teléfono. Desde esa misma sección puedes desvincular el equipo. También puedes cerrar la sesión en WhatsApp Web.
@@ -50,8 +68,13 @@ Abre Vamo Lite y escanea el QR mediante Dispositivos vinculados en WhatsApp del 
 | --- | --- |
 | `src-tauri/src/main.rs` | WebView, inicio, permisos, descargas, redimensionado y atajo de emojis |
 | `src-tauri/tauri.conf.json` | Ventana, recursos web y empaquetado NSIS |
+| `src-tauri/tauri.linux.conf.json` | Configuración de Linux, dependencias DEB y permiso de zoom |
+| `src-tauri/vamo-lite.desktop` | Acceso del menú de Linux |
 | `src-tauri/Cargo.lock` | Versiones resueltas de las dependencias Rust |
 | `src-tauri/icons/` | Iconos |
+| `.github/workflows/linux-mint.yml` | Compilación, instalación y prueba de arranque del DEB |
+| `.github/workflows/verify-linux-release.yml` | Comprobación del instalador Linux ya publicado |
+| `scripts/` | Generador de avisos y pruebas de Linux |
 | `web/` | Interfaz local de respaldo con conversaciones ficticias |
 | `index.html`, `app.js`, `styles.css` | Prototipo original para navegador |
 
@@ -59,18 +82,27 @@ Las conversaciones reales las proporciona WhatsApp Web. Los indicadores de conex
 
 ## Privacidad y permisos
 
-El perfil del motor web se guarda dentro del directorio de datos de la aplicación, en `whatsapp-web-profile`. Contiene datos sensibles: Los documentos se guardan en Descargas del usuario.
+El perfil del motor web se guarda dentro del directorio de datos de la aplicación, en `whatsapp-web-profile`, y contiene los datos de la sesión vinculada. En Linux su ubicación habitual es `~/.local/share/com.vamo.lite/whatsapp-web-profile`. Los documentos se guardan en Descargas del usuario.
 
 La implementación actual permite automáticamente micrófono, cámara y notificaciones en la vista incrustada. No incluye una pantalla propia de revocación por sitio. El sistema operativo puede bloquear estos accesos desde sus ajustes de privacidad.
 
 ## Estado y limitaciones
 
-Versión experimental 0.1.1 para Windows 11. El uso diario de las versiones anteriores se ha comprobado manualmente; este paquete completo requiere validación adicional en un sistema limpio. No se ha realizado una auditoría de seguridad ni una comparación controlada de memoria o CPU con el cliente oficial. No se garantiza un consumo concreto: WhatsApp Web y WebView2 determinan buena parte de él.
+| Plataforma | Versión descargable | Validación |
+| --- | --- | --- |
+| Windows 11 x64 | 0.1.1, experimental | Uso manual de versiones anteriores; el instalador completo aún requiere prueba en un sistema limpio |
+| Linux Mint 22.x amd64 | 0.1.3, experimental | Compilación, instalación y arranque automatizados en Ubuntu 24.04; falta una prueba real en Mint con una cuenta vinculada |
+
+La [compilación de Linux 0.1.3](https://github.com/NEO0325L/vamo-lite/actions/runs/40172780344) comprobó el contenido del paquete, su instalación con APT, sus bibliotecas dinámicas y un arranque de 15 segundos con pantalla virtual. Las verificaciones del instalador publicado están en [GitHub Actions](https://github.com/NEO0325L/vamo-lite/actions/workflows/verify-linux-release.yml).
+
+Estas pruebas no demuestran todavía el funcionamiento del QR, la persistencia de una cuenta real, el envío de mensajes, los adjuntos, las notas de voz o las notificaciones en Mint. La [guía de migración](LINUX-MINT.md#comprobar-al-migrar) detalla las comprobaciones pendientes.
+
+No se ha realizado una auditoría de seguridad ni una comparación controlada de memoria o CPU con el cliente oficial. No se garantiza un consumo concreto: WhatsApp Web y el motor web de cada plataforma determinan buena parte de él.
 
 - Las llamadas y otras funciones dependen de su disponibilidad en WhatsApp Web.
-- Cambios en WhatsApp pueden afectar al atajo de emojis y a la compatibilidad. El agente de usuario está fijado en el código.
+- Cambios en WhatsApp pueden afectar al atajo de emojis y a la compatibilidad. En Windows se fija un agente de usuario de Chromium; Linux conserva el de WebKitGTK.
 - Se usa la función `unstable` de Tauri para la vista hija; revisa compatibilidad al actualizar.
-- El instalador no está firmado digitalmente.
+- El instalador de Windows no está firmado digitalmente. Para Linux se publica la suma SHA-256 junto con el DEB.
 - Una descarga interrumpida puede dejar un archivo parcial o vacío.
 
 ## Contribuir
