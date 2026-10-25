@@ -55,7 +55,7 @@ Las conversaciones reales las proporciona WhatsApp Web. Los indicadores de conex
 
 ## Privacidad y permisos
 
-El perfil de WebView2 se guarda dentro del directorio de datos de la aplicación, en `whatsapp-web-profile`. Contiene datos sensibles: no lo subas a GitHub ni lo adjuntes a reportes. Los documentos se guardan en Descargas del usuario.
+El perfil de WebView2 se guarda dentro del directorio de datos de la aplicación, en `whatsapp-web-profile`. Contiene datos sensibles:Los documentos se guardan en Descargas del usuario.
 
 La implementación actual permite automáticamente micrófono, cámara y notificaciones en la vista incrustada. No incluye una pantalla propia de revocación por sitio. Windows puede bloquear estos accesos desde sus ajustes de privacidad.
 
