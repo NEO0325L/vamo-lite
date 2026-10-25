@@ -1,6 +1,6 @@
 [package]
 name = "vamo-lite"
-version = "0.1.2"
+version = "0.1.3"
 description = "Cliente independiente de WhatsApp Web para Windows y Linux Mint"
 authors = ["NEO0325L"]
 license = "MIT"
