@@ -1,14 +1,25 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
-use tauri::{
-    AppHandle, LogicalPosition, Manager, WebviewBuilder, WebviewUrl, WindowEvent,
-};
 use tauri::webview::{DownloadEvent, PermissionKind, PermissionResponse};
+use tauri::{AppHandle, LogicalPosition, Manager, WebviewBuilder, WebviewUrl, WindowEvent};
 
 const WHATSAPP_LABEL: &str = "whatsapp-embedded";
+#[cfg(not(target_os = "linux"))]
 const WHATSAPP_UA: &str = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36 Edg/154.0.0.0";
 
 fn ensure_whatsapp(app: &AppHandle) -> Result<(), String> {
+    // En Linux se crea una ventana nativa vacía: solo se ejecuta el WebView
+    // de WhatsApp, sin mantener el prototipo local detrás de él.
+    #[cfg(target_os = "linux")]
+    if app.get_window("main").is_none() {
+        tauri::WindowBuilder::new(app, "main")
+            .title("Vamo Lite")
+            .inner_size(1120.0, 720.0)
+            .min_inner_size(720.0, 520.0)
+            .resizable(true)
+            .build()
+            .map_err(|error| error.to_string())?;
+    }
     let main = app
         .get_window("main")
         .ok_or_else(|| "No se encontró la ventana principal".to_string())?;
@@ -26,9 +37,17 @@ fn ensure_whatsapp(app: &AppHandle) -> Result<(), String> {
         .join("whatsapp-web-profile");
     let builder = WebviewBuilder::new(
         WHATSAPP_LABEL,
-        WebviewUrl::External("https://web.whatsapp.com".parse().expect("valid WhatsApp URL")),
-    )
-    .user_agent(WHATSAPP_UA)
+        WebviewUrl::External(
+            "https://web.whatsapp.com"
+                .parse()
+                .expect("valid WhatsApp URL"),
+        ),
+    );
+    #[cfg(not(target_os = "linux"))]
+    let builder = builder.user_agent(WHATSAPP_UA);
+    // WebKitGTK aplica sus ajustes de compatibilidad con WhatsApp al usar
+    // su agente de usuario nativo; no se le fuerza la identidad de Chromium.
+    let builder = builder
     .data_directory(data_dir)
     .zoom_hotkeys_enabled(true)
     .auto_resize()
@@ -85,6 +104,13 @@ fn ensure_whatsapp(app: &AppHandle) -> Result<(), String> {
                     // Explorer espera /select,"ruta", también con espacios y tildes.
                     let _ = std::process::Command::new("explorer.exe").raw_arg(selection).spawn();
                 }
+                #[cfg(target_os = "linux")]
+                if let Some(directory) = path.parent() {
+                    // Abrir la carpeta sin ejecutar el documento ni usar un shell.
+                    let _ = std::process::Command::new("xdg-open")
+                        .arg(directory)
+                        .spawn();
+                }
             }
             DownloadEvent::Finished { success: false, .. } => {
                 let _ = webview.eval("alert('La descarga no se completó. Comprueba la conexión y vuelve a intentarlo.');");
@@ -122,12 +148,8 @@ fn ensure_whatsapp(app: &AppHandle) -> Result<(), String> {
         _ => PermissionResponse::Default,
     });
 
-    main.add_child(
-        builder,
-        LogicalPosition::new(0.0, 0.0),
-        size,
-    )
-    .map_err(|e| e.to_string())?;
+    main.add_child(builder, LogicalPosition::new(0.0, 0.0), size)
+        .map_err(|e| e.to_string())?;
 
     Ok(())
 }
@@ -170,11 +192,3 @@ fn main() {
         .run(tauri::generate_context!())
         .expect("error while running Vamo Lite");
 }
-
-
-
-
-
-
-
-
