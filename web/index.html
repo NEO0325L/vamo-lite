@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0f172a" />
+  <title>Vamo Lite</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="app-shell" aria-label="Vamo Lite">
+    <aside class="sidebar">
+      <header class="brandbar"><div class="brand-mark">v</div><div><strong>Vamo Lite</strong><span>conectado</span></div><button class="connect-btn" id="connectBtn">Conectar WhatsApp</button><button class="icon-btn" id="settingsBtn" aria-label="Abrir ajustes">⚙</button></header>
+      <div class="search-wrap"><span>⌕</span><input id="chatSearch" type="search" placeholder="Buscar conversación" aria-label="Buscar conversación" /></div>
+      <div class="sidebar-tools"><span id="chatCount">4 conversaciones</span><button id="powerBtn" class="saving-toggle" title="Activar modo ahorro">⚡ ahorro</button></div>
+      <nav id="chatList" class="chat-list" aria-label="Conversaciones"></nav>
+      <footer class="sidebar-footer"><div class="avatar small">V</div><div><strong>Tu cuenta</strong><span>Sesión local</span></div><span class="status-dot"></span></footer>
+    </aside>
+    <section class="conversation" id="conversationPanel">
+      <header class="conversation-header"><div class="avatar" id="headerAvatar">MC</div><div class="contact-meta"><h1 id="headerName">María Cortés</h1><span id="headerStatus">en línea</span></div><div class="header-actions"><button class="icon-btn" title="Buscar en el chat">⌕</button><button class="icon-btn" title="Más opciones">⋮</button></div></header>
+      <div class="privacy-note">🔒 Los mensajes están protegidos. Vamo Lite mantiene la interfaz mínima para ahorrar recursos.</div>
+      <div id="messageList" class="message-list" aria-live="polite"></div>
+      <form id="composer" class="composer"><button type="button" class="attach-btn" title="Adjuntar archivo">＋</button><input id="messageInput" autocomplete="off" placeholder="Escribe un mensaje" aria-label="Escribe un mensaje" /><button class="send-btn" type="submit" aria-label="Enviar">➤</button></form>
+    </section>
+    <aside class="empty-panel" id="settingsPanel" hidden><div class="settings-card"><button class="close-settings" id="closeSettings">×</button><div class="settings-icon">⚙</div><h2>Ajustes de Vamo Lite</h2><p>Controla el consumo de la aplicación.</p><label class="setting-row"><span><strong>Modo ahorro</strong><small>Reduce animaciones y efectos visuales</small></span><input id="savingCheckbox" type="checkbox" /></label><label class="setting-row"><span><strong>Notificaciones</strong><small>Recibir avisos de mensajes nuevos</small></span><input type="checkbox" checked /></label><label class="setting-row"><span><strong>Descarga automática</strong><small>Evita descargar medios en segundo plano</small></span><input type="checkbox" /></label><div class="resource-box"><span>Uso estimado</span><strong id="resourceValue">Bajo · 112 MB</strong></div></div></aside>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
+
