@@ -4,6 +4,12 @@ Aplicación experimental para Windows 11 que abre WhatsApp Web dentro de una ven
 
 Proyecto independiente, sin afiliación con WhatsApp ni Meta. Utiliza el sitio oficial de WhatsApp Web; no implementa el protocolo ni sincroniza conversaciones por cuenta propia.
 
+## Descargar para Windows
+
+[**Descargar Vamo Lite 0.1.0 para Windows 11 x64 (.exe)**](https://github.com/NEO0325L/vamo-lite/releases/download/v0.1.0/Vamo.Lite_0.1.0_x64-setup.exe)
+
+[Notas de la versión y requisitos](https://github.com/NEO0325L/vamo-lite/releases/tag/v0.1.0). Versión experimental. Para instalarla no necesitas Rust ni Visual Studio; requiere Microsoft Edge WebView2 Runtime. El instalador no está firmado digitalmente. Cierra Vamo Lite antes de actualizar.
+
 ## Funciones
 
 - WhatsApp Web al iniciar, con sesión persistente.
@@ -70,3 +76,4 @@ Consulta [CONTRIBUTING.md](CONTRIBUTING.md). No publiques mensajes privados, doc
 ## Licencia y marcas
 
 La licencia de distribución y reutilización está pendiente de elección por su autor; por ahora no se declara una licencia de código abierto. Las dependencias conservan sus respectivas licencias. WhatsApp y otras marcas pertenecen a sus titulares.
+
